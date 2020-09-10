@@ -31,7 +31,6 @@ extern "C"
 			ReplacePVM("knuckles_dc", "knuckles_dco");
 			ReplacePVM("m_head_1_dc", "m_head_1_dco");
 			ReplacePVM("m_tr_p_dc", "m_tr_p_dco");
-			ReplacePVM("metalsonic_dc", "metalsonic_dco");
 			ReplacePVM("Miles_dc", "Miles_DCo");
 			ReplacePVM("shooting1_dc", "shooting1_dco");
 			ReplacePVM("shooting2_dc", "shooting2_dco");
@@ -48,7 +47,6 @@ extern "C"
 			ReplacePVM("knuckles_dc", "knuckles_dcu");
 			ReplacePVM("m_head_1_dc", "m_head_1_dcu");
 			ReplacePVM("m_tr_p_dc", "m_tr_p_dcu");
-			ReplacePVM("metalsonic_dc", "metalsonic_dcu");
 			ReplacePVM("Miles_dc", "Miles_DCu");
 			ReplacePVM("shooting1_dc", "shooting1_dcu");
 			ReplacePVM("shooting2_dc", "shooting2_dcu");
