@@ -18,5 +18,11 @@
     <ClCompile Include="AI_char_text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="IniFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextConv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

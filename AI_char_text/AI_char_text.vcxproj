@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI_char_text.cpp" />
+    <ClCompile Include="IniFile.cpp" />
+    <ClCompile Include="TextConv.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
