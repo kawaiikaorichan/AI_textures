@@ -7,10 +7,10 @@
 
 //Options
 enum KindofTextureDX { LikeDream, OriginalDX, DreamcastT, UekawaDX };
-enum DXSuperS { LikeDreamSS, OriginalDXSS, DreamcastTSS, UpgradedDX };
+enum DXSuperS { LikeDreamSS, OriginalDXSS, DreamcastTSS, Upgraded };
 
 static int KindofTextDX = LikeDream;
-static int DXSS = UpgradedDX;
+static int DXSS = Upgraded;
 
 extern "C"
 {
@@ -20,16 +20,16 @@ extern "C"
 		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 		std::string KindofTextDX_String = "LikeDream";
 		KindofTextDX_String = config->getString("Textures", "DXChars", "LikeDream");
-		std::string DXSS_String = "UpgradedDX";
-		DXSS_String = config->getString("Textures", "DXSS", "OriginalDXSS");
+		std::string DXSS_String = "Upgraded";
+		DXSS_String = config->getString("Textures", "DXSS", "Upgraded");
 		if (KindofTextDX_String == "LikeDream") KindofTextDX = LikeDream;
 		if (KindofTextDX_String == "DreamcastT") KindofTextDX = DreamcastT;
 		if (KindofTextDX_String == "OriginalDX") KindofTextDX = OriginalDX;
 		if (KindofTextDX_String == "UekawaDX") KindofTextDX = UekawaDX;
+		if (DXSS_String == "Upgraded") DXSS = Upgraded;
 		if (DXSS_String == "LikeDreamSS") DXSS = LikeDreamSS;
 		if (DXSS_String == "DreamcastTSS") DXSS = DreamcastTSS;
 		if (DXSS_String == "OriginalDXSS") DXSS = OriginalDXSS;
-		if (DXSS_String == "UpgradedDX") DXSS = UpgradedDX;
 		
 		if (KindofTextDX == LikeDream)
 		{
@@ -82,9 +82,9 @@ extern "C"
 			ReplacePVM("SONIC", "SONIC_dxu");
 		}
 
-		if (DXSS == UpgradedDX)
+		if (DXSS == Upgraded)
 		{
-			ReplacePVM("supersonic", "supersonic_dxn")
+			ReplacePVM("supersonic", "supersonic_n")
 		}
 
 		if (DXSS == DreamcastTSS)
