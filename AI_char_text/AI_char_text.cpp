@@ -407,18 +407,8 @@ extern "C"
 		ReplacePVM("DXR_AMY", "amy_r");
 		ReplacePVM("DXR_AMY_EFF", "AMY_EFF");
 		ReplacePVM("DXR_MILES", "miles_r");
-		ReplacePVM("DXR_HYPER", "HYPERSONIC");
 		ReplacePVM("DXR_KNU_EFF", "KNU_EFF_HD");
 		ReplacePVM("DXR_SON_EFF", "SON_EFF");
-		ReplacePVM("HYPERBASIC_DXR", "HYPERSONIC");
-		ReplacePVM("HYPERSONIC_DXR", "HYPERSONIC");
-		ReplacePVM("HYPERSONICG_DXR", "HYPERSONIC");
-		if (Hyper)
-		{
-			ReplacePVM("HYPERSONIC_DC", "HYPERSONIC_DCHD");
-			ReplacePVM("HYPERSONIC", "HYPERSONIC_HD")
-		}
-
 	}
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };
 }
