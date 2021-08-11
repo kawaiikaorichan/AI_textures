@@ -101,21 +101,40 @@ extern "C"
 
 			if (DXSS == Upgraded)
 			{
-				ReplacePVM("supersonic", "supersonic_n");
-				ReplacePVM("supersonic_dxr", "supersonic_n");
+				if (DXcharsR)
+				{
+					ReplacePVM("supersonic_dxr", "supersonic_nr");
+				}
+				else
+				{
+					ReplacePVM("supersonic", "supersonic_n");
+				}
 			}
 
 			if (DXSS == DreamcastTSS)
 			{
-				ReplacePVM("supersonic", "supersonic_dxd");
-				ReplacePVM("supersonic_dxr", "supersonic_n");
+				if (DXcharsR)
+				{
+					ReplacePVM("supersonic_dxr", "supersonic_dxdr");
+				}
+				else
+				{
+					ReplacePVM("supersonic", "supersonic_dxd");
+				}
 			}
 
 			if (DXSS == LikeDreamSS)
 			{
-				ReplacePVM("supersonic", "supersonic_ld");
-				ReplacePVM("supersonic_dxr", "supersonic_n");
+				if (DXcharsR)
+				{
+					ReplacePVM("supersonic_dxr", "supersonic_ldr");
+				}
+				else
+				{
+					ReplacePVM("supersonic", "supersonic_ld");
+				}
 			}
+
 
 			if (DCcharacters)
 			{
