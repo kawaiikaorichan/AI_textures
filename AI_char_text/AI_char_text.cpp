@@ -1,5 +1,4 @@
-#include "SADXModLoader.h"
-#include <stdio.h>
+#include "pch.h"
 #include "IniFile.hpp"
 
 //Macros
@@ -11,6 +10,7 @@ enum KindofTextureDC { OriginalDC, LikeDX };
 enum DXSuperS { LikeDreamSS, OriginalDXSS, DreamcastTSS, Upgraded };
 enum DCSuperS { OriginalDCSS, LikeDXSS, UpgradedDC };
 enum EmeraldText { New, SA1, SA2 };
+enum Mural { Vanilla, Preview };
 
 static bool EnableSonic = true;
 static bool EnableTails = true;
@@ -23,12 +23,14 @@ static int KindofTextDC = OriginalDC;
 static int DCSS = UpgradedDC;
 static int DXSS = Upgraded;
 static int Emerald = New;
+static int LWMural = Vanilla;
 
 extern "C"
 {
 	__declspec(dllexport) __declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
 	{
 		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
+
 		//Enabling or disabling HD textures
 		EnableSonic = config->getBool("Characters", "EnableSonic", true);
 		EnableTails = config->getBool("Characters", "EnableTails", true);
@@ -36,6 +38,7 @@ extern "C"
 		EnableAmy = config->getBool("Characters", "EnableAmy", true);
 		EnableBig = config->getBool("Characters", "EnableBig", true);
 		EnableMetal = config->getBool("Characters", "EnableMetal", true);
+
 		//Choosing kind of textures
 		std::string KindofTextDX_String = "LikeDream";
 		KindofTextDX_String = config->getString("Textures", "DXChars", "LikeDream");
@@ -46,7 +49,9 @@ extern "C"
 		std::string DCSS_String = "UpgradedDC";
 		DCSS_String = config->getString("Textures", "DreamcastSS", "OriginalDCSS");
 		std::string Emerald_String = "New";
-		Emerald_String = config->getString("Textures", "Emeralds", "New");
+		Emerald_String = config->getString("Misc", "Emeralds", "New");
+		std::string LWMural_String = "Vanilla";
+		LWMural_String = config->getString("Misc", "Mural", "Vanilla");
 
 		if (KindofTextDX_String == "LikeDream") KindofTextDX = LikeDream;
 		if (KindofTextDX_String == "DreamcastT") KindofTextDX = DreamcastT;
@@ -63,11 +68,14 @@ extern "C"
 		if (Emerald_String == "SA1") Emerald = SA1;
 		if (Emerald_String == "SA2") Emerald = SA2;
 		if (Emerald_String == "New") Emerald = New;
+		if (LWMural_String == "Vanilla") LWMural = Vanilla;
+		if (LWMural_String == "Preview") LWMural = Preview;
+
 		//Compatiblity with other mods
 		HMODULE DCcharacters = GetModuleHandle(L"SA1_Chars");
 		HMODULE DCconversion = GetModuleHandle(L"DCMods_Main");
-		HMODULE DCSTyleSS = GetModuleHandle(L"ssreworked");
-		HMODULE AIHD = GetModuleHandle(L"AI_char_text");
+		HMODULE DXcharsR = GetModuleHandle(L"SADXR");
+		HMODULE Hyper = GetModuleHandle(L"sadx-hyper-sonic");
 		
 		if (EnableSonic)
 		{
@@ -93,17 +101,20 @@ extern "C"
 
 			if (DXSS == Upgraded)
 			{
-				ReplacePVM("supersonic", "supersonic_n")
+				ReplacePVM("supersonic", "supersonic_n");
+				ReplacePVM("supersonic_dxr", "supersonic_n");
 			}
 
 			if (DXSS == DreamcastTSS)
 			{
-				ReplacePVM("supersonic", "supersonic_dxd")
+				ReplacePVM("supersonic", "supersonic_dxd");
+				ReplacePVM("supersonic_dxr", "supersonic_n");
 			}
 
 			if (DXSS == LikeDreamSS)
 			{
-				ReplacePVM("supersonic", "supersonic_ld")
+				ReplacePVM("supersonic", "supersonic_ld");
+				ReplacePVM("supersonic_dxr", "supersonic_n");
 			}
 
 			if (DCcharacters)
@@ -130,35 +141,54 @@ extern "C"
 
 				if (DCSS == UpgradedDC)
 				{
-					ReplacePVM("supersonic", "supersonic_dcn")
+					ReplacePVM("supersonic", "supersonic_dcn");
 				}
 
 				if (DCSS == LikeDXSS)
 				{
-					ReplacePVM("supersonic", "supersonic_ldx")
+					ReplacePVM("supersonic", "supersonic_ldx");
 				}
 
 				if (DCSS == OriginalDCSS)
 				{
-					ReplacePVM("supersonic", "supersonic_dc")
+					ReplacePVM("supersonic", "supersonic_dc");
 				}
 			}
 		}
 
 		if (EnableTails)
 		{
-			if (KindofTextDX == LikeDream)
+			if (DXcharsR)
 			{
-				ReplacePVM("m_head_1", "m_head_1_ld");
-				ReplacePVM("m_tr_p", "m_tr_p_ld");
-				ReplacePVM("Miles", "Miles_ld");
-			}
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("m_head_1", "m_head_1_ld");
+					ReplacePVM("m_tr_p", "m_tr_p_ld");
+					ReplacePVM("Miles", "Miles_ldr");
+				}
 
-			if (KindofTextDX == DreamcastT)
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("m_head_1", "m_head_1_dxd");
+					ReplacePVM("m_tr_p", "m_tr_p_dxd");
+					ReplacePVM("Miles", "Miles_dxdr");
+				}
+			}
+			else
 			{
-				ReplacePVM("m_head_1", "m_head_1_dxd");
-				ReplacePVM("m_tr_p", "m_tr_p_dxd");
-				ReplacePVM("Miles", "Miles_dxd");
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("m_head_1", "m_head_1_ld");
+					ReplacePVM("m_tr_p", "m_tr_p_ld");
+					ReplacePVM("Miles", "Miles_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("m_head_1", "m_head_1_dxd");
+					ReplacePVM("m_tr_p", "m_tr_p_dxd");
+					ReplacePVM("Miles", "Miles_dxd");
+				}
 			}
 
 			if (DCcharacters)
@@ -207,14 +237,29 @@ extern "C"
 
 		if (EnableAmy)
 		{
-			if (KindofTextDX == LikeDream)
+			if (DXcharsR)
 			{
-				ReplacePVM("Amy", "Amy_ld");
-			}
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("Amy", "Amy_ldr");
+				}
 
-			if (KindofTextDX == DreamcastT)
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("Amy", "Amy_dxdr");
+				}
+			}
+			else
 			{
-				ReplacePVM("Amy", "Amy_dxd");
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("Amy", "Amy_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("Amy", "Amy_dxd");
+				}
 			}
 
 			if (DCcharacters)
@@ -329,12 +374,32 @@ extern "C"
 				ReplacePVM("MROBJ", "MROBJ_DC");
 				ReplacePVM("OBJ_PAST", "OBJ_PAST_DC");
 			}
+
+			if (LWMural == Vanilla)
+			{
+				ReplacePVM("RUIN03", "RUIN03_DC");
+			}
+
+			if (LWMural == Preview)
+			{
+				ReplacePVM("RUIN03", "RUIN03_DCP");
+			}
+		}
+		ReplacePVM("DXR_AMY", "amy_r");
+		ReplacePVM("DXR_AMY_EFF", "AMY_EFF");
+		ReplacePVM("DXR_MILES", "miles_r");
+		ReplacePVM("DXR_HYPER", "HYPERSONIC");
+		ReplacePVM("DXR_KNU_EFF", "KNU_EFF_HD");
+		ReplacePVM("DXR_SON_EFF", "SON_EFF");
+		ReplacePVM("HYPERBASIC_DXR", "HYPERSONIC");
+		ReplacePVM("HYPERSONIC_DXR", "HYPERSONIC");
+		ReplacePVM("HYPERSONICG_DXR", "HYPERSONIC");
+		if (Hyper)
+		{
+			ReplacePVM("HYPERSONIC_DC", "HYPERSONIC_DCHD");
+			ReplacePVM("HYPERSONIC", "HYPERSONIC_HD")
 		}
 
-		if (DCSTyleSS)
-		{
-			ReplacePVM("supersonic", "supersonic_dxr");
-		}
 	}
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };
 }
