@@ -103,7 +103,7 @@ extern "C"
 			{
 				if (DXcharsR)
 				{
-					ReplacePVM("supersonic_dxr", "supersonic_nr");
+					ReplacePVM("supersonic", "supersonic_nr");
 				}
 				else
 				{
@@ -115,7 +115,7 @@ extern "C"
 			{
 				if (DXcharsR)
 				{
-					ReplacePVM("supersonic_dxr", "supersonic_dxdr");
+					ReplacePVM("supersonic", "supersonic_dxdr");
 				}
 				else
 				{
@@ -127,7 +127,7 @@ extern "C"
 			{
 				if (DXcharsR)
 				{
-					ReplacePVM("supersonic_dxr", "supersonic_ldr");
+					ReplacePVM("supersonic", "supersonic_ldr");
 				}
 				else
 				{
