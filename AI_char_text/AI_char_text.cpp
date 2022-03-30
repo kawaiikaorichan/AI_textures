@@ -9,7 +9,6 @@ enum KindofTextureDX { LikeDream, OriginalDX, DreamcastT };
 enum KindofTextureDC { OriginalDC, LikeDX };
 enum DXSuperS { LikeDreamSS, OriginalDXSS, DreamcastTSS, Upgraded };
 enum DCSuperS { OriginalDCSS, LikeDXSS, UpgradedDC };
-enum EmeraldText { New, SA1, SA2 };
 enum Mural { Vanilla, Preview };
 
 static bool EnableSonic = true;
@@ -22,7 +21,6 @@ static int KindofTextDX = LikeDream;
 static int KindofTextDC = OriginalDC;
 static int DCSS = UpgradedDC;
 static int DXSS = Upgraded;
-static int Emerald = New;
 static int LWMural = Vanilla;
 
 extern "C"
@@ -48,8 +46,6 @@ extern "C"
 		KindofTextDC_String = config->getString("Textures", "DreamcastChars", "OriginalDC");
 		std::string DCSS_String = "UpgradedDC";
 		DCSS_String = config->getString("Textures", "DreamcastSS", "OriginalDCSS");
-		std::string Emerald_String = "New";
-		Emerald_String = config->getString("Misc", "Emeralds", "New");
 		std::string LWMural_String = "Vanilla";
 		LWMural_String = config->getString("Misc", "Mural", "Vanilla");
 
@@ -65,9 +61,6 @@ extern "C"
 		if (DCSS_String == "OriginalDCSS") DCSS = OriginalDCSS;
 		if (DCSS_String == "LikeDXSS") DCSS = LikeDXSS;
 		if (DCSS_String == "UpgradedDC") DCSS = UpgradedDC;
-		if (Emerald_String == "SA1") Emerald = SA1;
-		if (Emerald_String == "SA2") Emerald = SA2;
-		if (Emerald_String == "New") Emerald = New;
 		if (LWMural_String == "Vanilla") LWMural = Vanilla;
 		if (LWMural_String == "Preview") LWMural = Preview;
 
@@ -97,6 +90,16 @@ extern "C"
 				ReplacePVM("shooting1", "shooting1_dxd");
 				ReplacePVM("shooting2", "shooting2_dxd");
 				ReplacePVM("SONIC", "SONIC_dxd");
+			}
+
+			if (KindofTextDX == OriginalDX)
+			{
+				ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_dx");
+				ReplacePVM("ev_tr2before_with_sonic", "ev_tr2before_with_sonic_dx");
+				ReplacePVM("ev_tr2change_with_sonic", "ev_tr2change_with_sonic_dx");
+				ReplacePVM("shooting1", "shooting1_dx");
+				ReplacePVM("shooting2", "shooting2_dx");
+				ReplacePVM("sonic", "sonic_dx");
 			}
 
 			if (DXSS == Upgraded)
@@ -132,6 +135,18 @@ extern "C"
 				else
 				{
 					ReplacePVM("supersonic", "supersonic_ld");
+				}
+			}
+
+			if (DXSS == OriginalDXSS)
+			{
+				if (DXcharsR)
+				{
+					ReplacePVM("supersonic", "supersonic_dxr");
+				}
+				else
+				{
+					ReplacePVM("supersonic", "supersonic_dx");
 				}
 			}
 
@@ -192,6 +207,13 @@ extern "C"
 					ReplacePVM("m_tr_p", "m_tr_p_dxd");
 					ReplacePVM("Miles", "Miles_dxdr");
 				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("m_head_1", "m_head_1_dx");
+					ReplacePVM("m_tr_p", "m_tr_p_dx");
+					ReplacePVM("Miles", "Miles_r");
+				}
 			}
 			else
 			{
@@ -207,6 +229,13 @@ extern "C"
 					ReplacePVM("m_head_1", "m_head_1_dxd");
 					ReplacePVM("m_tr_p", "m_tr_p_dxd");
 					ReplacePVM("Miles", "Miles_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("m_head_1", "m_head_1_dx");
+					ReplacePVM("m_tr_p", "m_tr_p_dx");
+					ReplacePVM("Miles", "Miles_dx");
 				}
 			}
 
@@ -240,6 +269,11 @@ extern "C"
 				ReplacePVM("Knuckles", "Knuckles_dxd");
 			}
 
+			if (KindofTextDX == OriginalDX)
+			{
+				ReplacePVM("Knuckles", "Knuckles_dx");
+			}
+
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -267,6 +301,11 @@ extern "C"
 				{
 					ReplacePVM("Amy", "Amy_dxdr");
 				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("Amy", "Amy_r");
+				}
 			}
 			else
 			{
@@ -278,6 +317,11 @@ extern "C"
 				if (KindofTextDX == DreamcastT)
 				{
 					ReplacePVM("Amy", "Amy_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("Amy", "Amy_dx");
 				}
 			}
 
@@ -307,6 +351,11 @@ extern "C"
 				ReplacePVM("Big", "Big_dxd");
 			}
 
+			if (KindofTextDX == OriginalDX)
+			{
+				ReplacePVM("Big", "Big_dx");
+			}
+
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -333,6 +382,11 @@ extern "C"
 				ReplacePVM("Metalsonic", "Metalsonic_dxd");
 			}
 
+			if (KindofTextDX == OriginalDX)
+			{
+				ReplacePVM("Metalsonic", "Metalsonic_dx");
+			}
+
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -349,51 +403,6 @@ extern "C"
 
 		if (DCconversion)
 		{
-			if (Emerald == SA2)
-			{
-				ReplacePVM("KAOS_EME", "KAOS_EME_sa2");
-				ReplacePVM("M_EM_BLACK", "M_EM_BLACK_sa2");
-				ReplacePVM("M_EM_BLUE", "M_EM_BLUE_sa2");
-				ReplacePVM("M_EM_GREEN", "M_EM_GREEN_sa2");
-				ReplacePVM("M_EM_PURPLE", "M_EM_PURPLE_sa2");
-				ReplacePVM("M_EM_RED", "M_EM_RED_sa2");
-				ReplacePVM("M_EM_SKY", "M_EM_SKY_sa2");
-				ReplacePVM("M_EM_WHITE", "M_EM_WHITE_sa2");
-				ReplacePVM("M_EM_YELLOW", "M_EM_YELLOW_sa2");
-				ReplacePVM("MROBJ", "MROBJ_sa2");
-				ReplacePVM("OBJ_PAST", "OBJ_PAST_sa2");
-			}
-
-			if (Emerald == New)
-			{
-				ReplacePVM("KAOS_EME", "KAOS_EME_new");
-				ReplacePVM("M_EM_BLACK", "M_EM_BLACK_new");
-				ReplacePVM("M_EM_BLUE", "M_EM_BLUE_new");
-				ReplacePVM("M_EM_GREEN", "M_EM_GREEN_new");
-				ReplacePVM("M_EM_PURPLE", "M_EM_PURPLE_new");
-				ReplacePVM("M_EM_RED", "M_EM_RED_new");
-				ReplacePVM("M_EM_SKY", "M_EM_SKY_new");
-				ReplacePVM("M_EM_WHITE", "M_EM_WHITE_new");
-				ReplacePVM("M_EM_YELLOW", "M_EM_YELLOW_new");
-				ReplacePVM("MROBJ", "MROBJ_new");
-				ReplacePVM("OBJ_PAST", "OBJ_PAST_new");
-			}
-
-			if (Emerald == SA1)
-			{
-				ReplacePVM("KAOS_EME", "KAOS_EME_DC");
-				ReplacePVM("M_EM_BLACK", "M_EM_BLACK_DC");
-				ReplacePVM("M_EM_BLUE", "M_EM_BLUE_DC");
-				ReplacePVM("M_EM_GREEN", "M_EM_GREEN_DC");
-				ReplacePVM("M_EM_PURPLE", "M_EM_PURPLE_DC");
-				ReplacePVM("M_EM_RED", "M_EM_RED_DC");
-				ReplacePVM("M_EM_SKY", "M_EM_SKY_DC");
-				ReplacePVM("M_EM_WHITE", "M_EM_WHITE_DC");
-				ReplacePVM("M_EM_YELLOW", "M_EM_YELLOW_DC");
-				ReplacePVM("MROBJ", "MROBJ_DC");
-				ReplacePVM("OBJ_PAST", "OBJ_PAST_DC");
-			}
-
 			if (LWMural == Vanilla)
 			{
 				ReplacePVM("RUIN03", "RUIN03_DC");
@@ -404,11 +413,12 @@ extern "C"
 				ReplacePVM("RUIN03", "RUIN03_DCP");
 			}
 		}
-		ReplacePVM("DXR_AMY", "amy_r");
-		ReplacePVM("DXR_AMY_EFF", "AMY_EFF");
-		ReplacePVM("DXR_MILES", "miles_r");
+		ReplacePVM("DXR_AMY_EFF", "AMY_EFF_DC");
+		ReplacePVM("DXR_CREAM", "cream_dx");
 		ReplacePVM("DXR_KNU_EFF", "KNU_EFF_HD");
-		ReplacePVM("DXR_SON_EFF", "SON_EFF");
+		ReplacePVM("DXR_SON_EFF", "SON_EFF_DC");
+		ReplacePVM("DXR_TIKAL", "tikal_dx");
+		ReplacePVM("DXR_HYPER", "hypersonic_dxr");
 	}
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };
 }
