@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "IniFile.hpp"
+#include "SSDCtexlist.h"
 
 //Macros
 #define ReplacePVM(a, b) helperFunctions.ReplaceFile("system\\" a ".PVM", "system\\" b ".PVM");
@@ -107,6 +108,9 @@ extern "C"
 				if (DXcharsR)
 				{
 					ReplacePVM("supersonic", "supersonic_nr");
+					ReplacePVM("hypersonic", "hypersonic_nr");
+					ReplacePVM("hypersonic_g", "hypersonic_nr");
+					ReplacePVM("DXR_HYPER", "hypersonic_nr");
 				}
 				else
 				{
@@ -119,6 +123,9 @@ extern "C"
 				if (DXcharsR)
 				{
 					ReplacePVM("supersonic", "supersonic_dxdr");
+					ReplacePVM("hypersonic", "hypersonic_dxdr");
+					ReplacePVM("hypersonic_g", "hypersonic_dxdr");
+					ReplacePVM("DXR_HYPER", "hypersonic_dxdr");
 				}
 				else
 				{
@@ -131,6 +138,9 @@ extern "C"
 				if (DXcharsR)
 				{
 					ReplacePVM("supersonic", "supersonic_ldr");
+					ReplacePVM("hypersonic", "hypersonic_ldr");
+					ReplacePVM("hypersonic_g", "hypersonic_ldr");
+					ReplacePVM("DXR_HYPER", "hypersonic_ldr");
 				}
 				else
 				{
@@ -143,6 +153,9 @@ extern "C"
 				if (DXcharsR)
 				{
 					ReplacePVM("supersonic", "supersonic_dxr");
+					ReplacePVM("hypersonic", "hypersonic_dxr");
+					ReplacePVM("hypersonic_g", "hypersonic_dxr");
+					ReplacePVM("DXR_HYPER", "hypersonic_dxr");
 				}
 				else
 				{
@@ -153,6 +166,18 @@ extern "C"
 
 			if (DCcharacters)
 			{
+				WriteData((NJS_TEXLIST**)0x55E65C, SSAura01);
+				WriteData((NJS_TEXLIST**)0x55E751, SSAura01);
+				WriteData((NJS_TEXLIST**)0x55E712, SSAura02);
+				WriteData((NJS_TEXLIST**)0x55E7CD, SSWaterThing);
+				WriteData((NJS_TEXLIST**)0x55F2B3, SSHomingTex1);
+				WriteData((NJS_TEXLIST**)0x55F1D1, SSHomingTex1);
+				WriteData((NJS_TEXLIST**)0x55F1DC, SSHomingTex2);
+				WriteData((NJS_TEXLIST**)0x55F2BE, SSHomingTex2);
+				WriteData((NJS_TEXLIST**)0x55F677, SSHomingTex2);
+				WriteData((NJS_TEXLIST**)0x55F669, SSHomingTex3);
+				SUPERSONIC_TEXLIST = SS_PVM;
+
 				if (KindofTextDC == LikeDX)
 				{
 					ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_ldx");
@@ -176,16 +201,34 @@ extern "C"
 				if (DCSS == UpgradedDC)
 				{
 					ReplacePVM("supersonic", "supersonic_dcn");
+					ReplacePVM("supersonic_dc_a", "supersonic_dcn");
+					ReplacePVM("hypersonic_dc", "hypersonic_dcn");
+					ReplacePVM("hypersonic_dc_a", "hypersonic_dcn");
+					ReplacePVM("HYPERSONIC_G_DC", "hypersonic_dcn");
+					ReplacePVM("HYPERSONIC_V_DC", "hypersonic_dcn");
+					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_dcn");
 				}
 
 				if (DCSS == LikeDXSS)
 				{
 					ReplacePVM("supersonic", "supersonic_ldx");
+					ReplacePVM("supersonic_dc_a", "supersonic_ldx");
+					ReplacePVM("hypersonic_dc", "hypersonic_ldx");
+					ReplacePVM("hypersonic_dc_a", "hypersonic_ldx");
+					ReplacePVM("HYPERSONIC_G_DC", "hypersonic_ldx");
+					ReplacePVM("HYPERSONIC_V_DC", "hypersonic_ldx");
+					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_ldx");
 				}
 
 				if (DCSS == OriginalDCSS)
 				{
 					ReplacePVM("supersonic", "supersonic_dc");
+					//Solo, what the heck did you do for the next two not to work?
+					ReplacePVM("supersonic_dc_a", "supersonic_dc");
+					ReplacePVM("hypersonic_dc_a", "hypersonic_dc");
+					ReplacePVM("HYPERSONIC_G_DC", "hypersonic_dc");
+					ReplacePVM("HYPERSONIC_V_DC", "hypersonic_dc");
+					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_dc");
 				}
 			}
 		}
@@ -418,7 +461,10 @@ extern "C"
 		ReplacePVM("DXR_KNU_EFF", "KNU_EFF_HD");
 		ReplacePVM("DXR_SON_EFF", "SON_EFF_DC");
 		ReplacePVM("DXR_TIKAL", "tikal_dx");
-		ReplacePVM("DXR_HYPER", "hypersonic_dxr");
+		ReplacePVM("HYPERSONIC_G", "hypersonic");
+		ReplacePVM("HYPERSONIC_G_DC", "hypersonic_dc");
+		ReplacePVM("HYPERSONIC_V_DC", "hypersonic_dc");
+		ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_dc");
 	}
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };
 }
