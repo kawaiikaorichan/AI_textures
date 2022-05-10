@@ -5,21 +5,27 @@
 //Macros
 #define ReplacePVM(a, b) helperFunctions.ReplaceFile("system\\" a ".PVM", "system\\" b ".PVM");
 
+int SUPERSONICGlowtextures[] = { 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90 }; //Textures IDs
+
 //Options
 enum KindofTextureDX { LikeDream, OriginalDX, DreamcastT };
 enum KindofTextureDC { OriginalDC, LikeDX };
-enum DXSuperS { LikeDreamSS, OriginalDXSS, DreamcastTSS, Upgraded };
-enum DCSuperS { OriginalDCSS, LikeDXSS, UpgradedDC };
+enum KindofTextureGamma { OriginalG, Reworked };
+enum DXSuperS { LikeDreamSS, OriginalDXSS, DreamcastTSS, Combined, Upgraded, UpgradedDX, Solo, SoloDX, SoloComb };
+enum DCSuperS { OriginalDCSS, LikeDXSS, UpgradedDC, UpgradedLDX, SoloDC, SoloLDX };
 enum Mural { Vanilla, Preview };
 
 static bool EnableSonic = true;
+static bool EnableSSonic = true;
 static bool EnableTails = true;
 static bool EnableKnuckles = true;
 static bool EnableAmy = true;
+static bool EnableGamma = true;
 static bool EnableBig = true;
 static bool EnableMetal = true;
 static int KindofTextDX = LikeDream;
 static int KindofTextDC = OriginalDC;
+static int KindofTextGamma = Reworked;
 static int DCSS = UpgradedDC;
 static int DXSS = Upgraded;
 static int LWMural = Vanilla;
@@ -32,9 +38,11 @@ extern "C"
 
 		//Enabling or disabling HD textures
 		EnableSonic = config->getBool("Characters", "EnableSonic", true);
+		EnableSSonic = config->getBool("Characters", "EnableSSonic", true);
 		EnableTails = config->getBool("Characters", "EnableTails", true);
 		EnableKnuckles = config->getBool("Characters", "EnableKnuckles", true);
 		EnableAmy = config->getBool("Characters", "EnableAmy", true);
+		EnableGamma = config->getBool("Characters", "EnableGamma", true);
 		EnableBig = config->getBool("Characters", "EnableBig", true);
 		EnableMetal = config->getBool("Characters", "EnableMetal", true);
 
@@ -46,7 +54,9 @@ extern "C"
 		std::string KindofTextDC_String = "OriginalDC";
 		KindofTextDC_String = config->getString("Textures", "DreamcastChars", "OriginalDC");
 		std::string DCSS_String = "UpgradedDC";
-		DCSS_String = config->getString("Textures", "DreamcastSS", "OriginalDCSS");
+		DCSS_String = config->getString("Textures", "DreamcastSS", "UpgradedDC");
+		std::string KindofTextGamma_String = "Reworked";
+		KindofTextGamma_String = config->getString("Textures", "Gamma", "Reworked");
 		std::string LWMural_String = "Vanilla";
 		LWMural_String = config->getString("Misc", "Mural", "Vanilla");
 
@@ -55,13 +65,23 @@ extern "C"
 		if (KindofTextDX_String == "OriginalDX") KindofTextDX = OriginalDX;
 		if (KindofTextDC_String == "OriginalDC") KindofTextDC = OriginalDC;
 		if (KindofTextDC_String == "LikeDX") KindofTextDC = LikeDX;
+		if (KindofTextGamma_String == "OriginalG") KindofTextGamma = OriginalG;
+		if (KindofTextGamma_String == "Reworked") KindofTextGamma = Reworked;
 		if (DXSS_String == "Upgraded") DXSS = Upgraded;
 		if (DXSS_String == "LikeDreamSS") DXSS = LikeDreamSS;
 		if (DXSS_String == "DreamcastTSS") DXSS = DreamcastTSS;
 		if (DXSS_String == "OriginalDXSS") DXSS = OriginalDXSS;
+		if (DXSS_String == "Combined") DXSS = Combined;
+		if (DXSS_String == "UpgradedDX") DXSS = UpgradedDX;
+		if (DXSS_String == "Solo") DXSS = Solo;
+		if (DXSS_String == "SoloDX") DXSS = SoloDX;
+		if (DXSS_String == "SoloComb") DXSS = SoloComb;
 		if (DCSS_String == "OriginalDCSS") DCSS = OriginalDCSS;
 		if (DCSS_String == "LikeDXSS") DCSS = LikeDXSS;
 		if (DCSS_String == "UpgradedDC") DCSS = UpgradedDC;
+		if (DCSS_String == "UpgradedLDX") DCSS = UpgradedLDX;
+		if (DCSS_String == "SoloDC") DCSS = SoloDC;
+		if (DCSS_String == "SoloLDX") DCSS = SoloLDX;
 		if (LWMural_String == "Vanilla") LWMural = Vanilla;
 		if (LWMural_String == "Preview") LWMural = Preview;
 
@@ -70,7 +90,7 @@ extern "C"
 		HMODULE DCconversion = GetModuleHandle(L"DCMods_Main");
 		HMODULE DXcharsR = GetModuleHandle(L"SADXR");
 		HMODULE Hyper = GetModuleHandle(L"sadx-hyper-sonic");
-		
+
 		if (EnableSonic)
 		{
 			if (KindofTextDX == LikeDream)
@@ -103,81 +123,8 @@ extern "C"
 				ReplacePVM("sonic", "sonic_dx");
 			}
 
-			if (DXSS == Upgraded)
-			{
-				if (DXcharsR)
-				{
-					ReplacePVM("supersonic", "supersonic_nr");
-					ReplacePVM("hypersonic", "hypersonic_nr");
-					ReplacePVM("hypersonic_g", "hypersonic_nr");
-					ReplacePVM("DXR_HYPER", "hypersonic_nr");
-				}
-				else
-				{
-					ReplacePVM("supersonic", "supersonic_n");
-				}
-			}
-
-			if (DXSS == DreamcastTSS)
-			{
-				if (DXcharsR)
-				{
-					ReplacePVM("supersonic", "supersonic_dxdr");
-					ReplacePVM("hypersonic", "hypersonic_dxdr");
-					ReplacePVM("hypersonic_g", "hypersonic_dxdr");
-					ReplacePVM("DXR_HYPER", "hypersonic_dxdr");
-				}
-				else
-				{
-					ReplacePVM("supersonic", "supersonic_dxd");
-				}
-			}
-
-			if (DXSS == LikeDreamSS)
-			{
-				if (DXcharsR)
-				{
-					ReplacePVM("supersonic", "supersonic_ldr");
-					ReplacePVM("hypersonic", "hypersonic_ldr");
-					ReplacePVM("hypersonic_g", "hypersonic_ldr");
-					ReplacePVM("DXR_HYPER", "hypersonic_ldr");
-				}
-				else
-				{
-					ReplacePVM("supersonic", "supersonic_ld");
-				}
-			}
-
-			if (DXSS == OriginalDXSS)
-			{
-				if (DXcharsR)
-				{
-					ReplacePVM("supersonic", "supersonic_dxr");
-					ReplacePVM("hypersonic", "hypersonic_dxr");
-					ReplacePVM("hypersonic_g", "hypersonic_dxr");
-					ReplacePVM("DXR_HYPER", "hypersonic_dxr");
-				}
-				else
-				{
-					ReplacePVM("supersonic", "supersonic_dx");
-				}
-			}
-
-
 			if (DCcharacters)
 			{
-				WriteData((NJS_TEXLIST**)0x55E65C, SSAura01);
-				WriteData((NJS_TEXLIST**)0x55E751, SSAura01);
-				WriteData((NJS_TEXLIST**)0x55E712, SSAura02);
-				WriteData((NJS_TEXLIST**)0x55E7CD, SSWaterThing);
-				WriteData((NJS_TEXLIST**)0x55F2B3, SSHomingTex1);
-				WriteData((NJS_TEXLIST**)0x55F1D1, SSHomingTex1);
-				WriteData((NJS_TEXLIST**)0x55F1DC, SSHomingTex2);
-				WriteData((NJS_TEXLIST**)0x55F2BE, SSHomingTex2);
-				WriteData((NJS_TEXLIST**)0x55F677, SSHomingTex2);
-				WriteData((NJS_TEXLIST**)0x55F669, SSHomingTex3);
-				SUPERSONIC_TEXLIST = SS_PVM;
-
 				if (KindofTextDC == LikeDX)
 				{
 					ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_ldx");
@@ -197,7 +144,97 @@ extern "C"
 					ReplacePVM("shooting2", "shooting2_dc");
 					ReplacePVM("SONIC", "SONIC_DC");
 				}
+			}
+		}
 
+		if (EnableSSonic)
+		{
+			WriteData((NJS_TEXLIST**)0x55E65C, SSAura01);
+			WriteData((NJS_TEXLIST**)0x55E751, SSAura01);
+			WriteData((NJS_TEXLIST**)0x55E712, SSAura02);
+			WriteData((NJS_TEXLIST**)0x55E7CD, SSWaterThing);
+			WriteData((NJS_TEXLIST**)0x55F2B3, SSHomingTex1);
+			WriteData((NJS_TEXLIST**)0x55F1D1, SSHomingTex1);
+			WriteData((NJS_TEXLIST**)0x55F1DC, SSHomingTex2);
+			WriteData((NJS_TEXLIST**)0x55F2BE, SSHomingTex2);
+			WriteData((NJS_TEXLIST**)0x55F677, SSHomingTex2);
+			WriteData((NJS_TEXLIST**)0x55F669, SSHomingTex3);
+			SUPERSONIC_TEXLIST = SS_PVM;
+
+			if (DXSS == Upgraded)
+			{
+				ReplacePVM("supersonic", "supersonic_n");
+				ReplacePVM("hypersonic", "hypersonic_n");
+				ReplacePVM("hypersonic_g", "hypersonic_n");
+				ReplacePVM("DXR_HYPER", "hypersonic_n");
+			}
+
+			if (DXSS == UpgradedDX)
+			{
+				ReplacePVM("supersonic", "supersonic_ndx");
+				ReplacePVM("hypersonic", "hypersonic_ndx");
+				ReplacePVM("hypersonic_g", "hypersonic_ndx");
+				ReplacePVM("DXR_HYPER", "hypersonic_ndx");
+			}
+
+			if (DXSS == DreamcastTSS)
+			{
+				ReplacePVM("supersonic", "supersonic_dxd");
+				ReplacePVM("hypersonic", "hypersonic_dxd");
+				ReplacePVM("hypersonic_g", "hypersonic_dxd");
+				ReplacePVM("DXR_HYPER", "hypersonic_dxd");
+			}
+
+			if (DXSS == LikeDreamSS)
+			{
+				ReplacePVM("supersonic", "supersonic_ld");
+				ReplacePVM("hypersonic", "hypersonic_ld");
+				ReplacePVM("hypersonic_g", "hypersonic_ld");
+				ReplacePVM("DXR_HYPER", "hypersonic_ld");
+			}
+
+			if (DXSS == OriginalDXSS)
+			{
+				ReplacePVM("supersonic", "supersonic_dx");
+				ReplacePVM("hypersonic", "hypersonic_dx");
+				ReplacePVM("hypersonic_g", "hypersonic_dx");
+				ReplacePVM("DXR_HYPER", "hypersonic_dx");
+			}
+
+			if (DXSS == Combined)
+			{
+				ReplacePVM("supersonic", "supersonic_comb");
+				ReplacePVM("hypersonic", "hypersonic_dx");
+				ReplacePVM("hypersonic_g", "hypersonic_dx");
+				ReplacePVM("DXR_HYPER", "hypersonic_dx");
+			}
+
+			if (DXSS == Solo)
+			{
+				ReplacePVM("supersonic", "supersonic_solo");
+				ReplacePVM("hypersonic", "hypersonic_solo");
+				ReplacePVM("hypersonic_g", "hypersonic_solo");
+				ReplacePVM("DXR_HYPER", "hypersonic_solo");
+			}
+
+			if (DXSS == SoloDX)
+			{
+				ReplacePVM("supersonic", "supersonic_solodx");
+				ReplacePVM("hypersonic", "hypersonic_solodx");
+				ReplacePVM("hypersonic_g", "hypersonic_solodx");
+				ReplacePVM("DXR_HYPER", "hypersonic_solodx");
+			}
+
+			if (DXSS == SoloComb)
+			{
+				ReplacePVM("supersonic", "supersonic_solocomb");
+				ReplacePVM("hypersonic", "hypersonic_solodx");
+				ReplacePVM("hypersonic_g", "hypersonic_solodx");
+				ReplacePVM("DXR_HYPER", "hypersonic_solodx");
+			}
+
+			if (DCcharacters)
+			{
 				if (DCSS == UpgradedDC)
 				{
 					ReplacePVM("supersonic", "supersonic_dcn");
@@ -209,6 +246,17 @@ extern "C"
 					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_dcn");
 				}
 
+				if (DCSS == UpgradedLDX)
+				{
+					ReplacePVM("supersonic", "supersonic_dcndx");
+					ReplacePVM("supersonic_dc_a", "supersonic_dcndx");
+					ReplacePVM("hypersonic_dc", "hypersonic_dcndx");
+					ReplacePVM("hypersonic_dc_a", "hypersonic_dcndx");
+					ReplacePVM("HYPERSONIC_G_DC", "hypersonic_dcndx");
+					ReplacePVM("HYPERSONIC_V_DC", "hypersonic_dcndx");
+					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_dcndx");
+				}
+
 				if (DCSS == LikeDXSS)
 				{
 					ReplacePVM("supersonic", "supersonic_ldx");
@@ -218,6 +266,28 @@ extern "C"
 					ReplacePVM("HYPERSONIC_G_DC", "hypersonic_ldx");
 					ReplacePVM("HYPERSONIC_V_DC", "hypersonic_ldx");
 					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_ldx");
+				}
+
+				if (DCSS == SoloDC)
+				{
+					ReplacePVM("supersonic", "supersonic_solodc");
+					ReplacePVM("supersonic_dc_a", "supersonic_solodc");
+					ReplacePVM("hypersonic_dc", "hypersonic_solodc");
+					ReplacePVM("hypersonic_dc_a", "hypersonic_solodc");
+					ReplacePVM("HYPERSONIC_G_DC", "hypersonic_solodc");
+					ReplacePVM("HYPERSONIC_V_DC", "hypersonic_solodc");
+					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_solodc");
+				}
+
+				if (DCSS == SoloLDX)
+				{
+					ReplacePVM("supersonic", "supersonic_solodcdx");
+					ReplacePVM("supersonic_dc_a", "supersonic_solodcdx");
+					ReplacePVM("hypersonic_dc", "hypersonic_solodcdx");
+					ReplacePVM("hypersonic_dc_a", "hypersonic_solodcdx");
+					ReplacePVM("HYPERSONIC_G_DC", "hypersonic_solodcdx");
+					ReplacePVM("HYPERSONIC_V_DC", "hypersonic_solodcdx");
+					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_solodcdx");
 				}
 
 				if (DCSS == OriginalDCSS)
@@ -382,6 +452,19 @@ extern "C"
 			}
 		}
 
+		if (EnableGamma)
+		{
+			if (KindofTextGamma == OriginalG)
+			{
+				ReplacePVM("E102", "E102_or");
+			}
+
+			if (KindofTextGamma == Reworked)
+			{
+				ReplacePVM("E102", "E102_r");
+			}
+		}
+
 		if (EnableBig)
 		{
 			if (KindofTextDX == LikeDream)
@@ -461,10 +544,7 @@ extern "C"
 		ReplacePVM("DXR_KNU_EFF", "KNU_EFF_HD");
 		ReplacePVM("DXR_SON_EFF", "SON_EFF_DC");
 		ReplacePVM("DXR_TIKAL", "tikal_dx");
-		ReplacePVM("HYPERSONIC_G", "hypersonic");
-		ReplacePVM("HYPERSONIC_G_DC", "hypersonic_dc");
-		ReplacePVM("HYPERSONIC_V_DC", "hypersonic_dc");
-		ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_dc");
 	}
+
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };
 }
