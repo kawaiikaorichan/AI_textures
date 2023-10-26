@@ -4,6 +4,7 @@
 
 //Macros
 #define ReplacePVM(a, b) helperFunctions.ReplaceFile("system\\" a ".PVM", "system\\" b ".PVM");
+#define ReplaceTex(pvm, pvr, folder, pngname, gbix, x, y) helperFunctions.ReplaceTexture(pvm, pvr, (std::string(path) + "\\textures\\" folder "\\" pngname ".png").c_str(), gbix, x, y);
 
 int SUPERSONICGlowtextures[] = { 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90 }; //Textures IDs
 
@@ -14,6 +15,7 @@ enum KindofTextureGamma { OriginalG, Reworked };
 enum DXSuperS { LikeDreamSS, OriginalDXSS, DreamcastTSS, Combined, Upgraded, UpgradedDX, Solo, SoloDX, SoloComb };
 enum DCSuperS { OriginalDCSS, LikeDXSS, UpgradedDC, UpgradedLDX, SoloDC, SoloLDX };
 enum Mural { Vanilla, Preview };
+enum Poster { VanillaC, Hesse };
 
 static bool EnableSonic = true;
 static bool EnableSSonic = true;
@@ -29,11 +31,15 @@ static int KindofTextGamma = Reworked;
 static int DCSS = UpgradedDC;
 static int DXSS = Upgraded;
 static int LWMural = Vanilla;
+static int CISpace = VanillaC;
 
 extern "C"
 {
 	__declspec(dllexport) __declspec(dllexport) void __cdecl Init(const char* path, const HelperFunctions& helperFunctions)
 	{
+		HMODULE handle = GetModuleHandle(L"CHRMODELS_orig");
+		NJS_OBJECT** ___SONIC_OBJECTS = (NJS_OBJECT**)GetProcAddress(handle, "___SONIC_OBJECTS");
+
 		const IniFile* config = new IniFile(std::string(path) + "\\config.ini");
 
 		//Enabling or disabling HD textures
@@ -59,6 +65,8 @@ extern "C"
 		KindofTextGamma_String = config->getString("Textures", "Gamma", "Reworked");
 		std::string LWMural_String = "Vanilla";
 		LWMural_String = config->getString("Misc", "Mural", "Vanilla");
+		std::string CISpace_String = "VanillaC";
+		CISpace_String = config->getString("Misc", "Poster", "VanillaC");
 
 		if (KindofTextDX_String == "LikeDream") KindofTextDX = LikeDream;
 		if (KindofTextDX_String == "DreamcastT") KindofTextDX = DreamcastT;
@@ -84,6 +92,8 @@ extern "C"
 		if (DCSS_String == "SoloLDX") DCSS = SoloLDX;
 		if (LWMural_String == "Vanilla") LWMural = Vanilla;
 		if (LWMural_String == "Preview") LWMural = Preview;
+		if (CISpace_String == "VanillaC") CISpace = VanillaC;
+		if (CISpace_String == "Hesse") CISpace = Hesse;
 
 		//Compatiblity with other mods
 		HMODULE DCcharacters = GetModuleHandle(L"SA1_Chars");
@@ -93,6 +103,15 @@ extern "C"
 
 		if (EnableSonic)
 		{
+			if (DCcharacters)
+			{
+				return;
+			}
+			else
+			{
+				___SONIC_OBJECTS[63]->basicdxmodel->mats[1].attrflags |= NJD_FLAG_USE_ENV | NJD_FLAG_IGNORE_LIGHT;
+			}
+
 			if (KindofTextDX == LikeDream)
 			{
 				ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_ld");
@@ -305,52 +324,28 @@ extern "C"
 
 		if (EnableTails)
 		{
-			if (DXcharsR)
+			if (KindofTextDX == LikeDream)
 			{
-				if (KindofTextDX == LikeDream)
-				{
-					ReplacePVM("m_head_1", "m_head_1_ld");
-					ReplacePVM("m_tr_p", "m_tr_p_ld");
-					ReplacePVM("Miles", "Miles_ldr");
-				}
-
-				if (KindofTextDX == DreamcastT)
-				{
-					ReplacePVM("m_head_1", "m_head_1_dxd");
-					ReplacePVM("m_tr_p", "m_tr_p_dxd");
-					ReplacePVM("Miles", "Miles_dxdr");
-				}
-
-				if (KindofTextDX == OriginalDX)
-				{
-					ReplacePVM("m_head_1", "m_head_1_dx");
-					ReplacePVM("m_tr_p", "m_tr_p_dx");
-					ReplacePVM("Miles", "Miles_r");
-				}
+				ReplacePVM("m_head_1", "m_head_1_ld");
+				ReplacePVM("m_tr_p", "m_tr_p_ld");
+				ReplacePVM("Miles", "Miles_ld");
+				ReplacePVM("DXR_EV_S_T2C_BODY", "DXR_EV_S_T2C_BODY_ld");
 			}
-			else
+
+			if (KindofTextDX == DreamcastT)
 			{
-				if (KindofTextDX == LikeDream)
-				{
-					ReplacePVM("m_head_1", "m_head_1_ld");
-					ReplacePVM("m_tr_p", "m_tr_p_ld");
-					ReplacePVM("Miles", "Miles_ld");
-				}
+				ReplacePVM("m_head_1", "m_head_1_dxd");
+				ReplacePVM("m_tr_p", "m_tr_p_dxd");	
+				ReplacePVM("Miles", "Miles_dxd");
+				ReplacePVM("DXR_EV_S_T2C_BODY", "DXR_EV_S_T2C_BODY_dxd");
+			}				
 
-				if (KindofTextDX == DreamcastT)
-				{
-					ReplacePVM("m_head_1", "m_head_1_dxd");
-					ReplacePVM("m_tr_p", "m_tr_p_dxd");
-					ReplacePVM("Miles", "Miles_dxd");
-				}
-
-				if (KindofTextDX == OriginalDX)
-				{
-					ReplacePVM("m_head_1", "m_head_1_dx");
-					ReplacePVM("m_tr_p", "m_tr_p_dx");
-					ReplacePVM("Miles", "Miles_dx");
-				}
-			}
+			if (KindofTextDX == OriginalDX)
+			{
+				ReplacePVM("m_head_1", "m_head_1_dx");	
+				ReplacePVM("m_tr_p", "m_tr_p_dx");	
+				ReplacePVM("Miles", "Miles_dx");	
+			}			
 
 			if (DCcharacters)
 			{
@@ -403,40 +398,22 @@ extern "C"
 
 		if (EnableAmy)
 		{
-			if (DXcharsR)
+			if (KindofTextDX == LikeDream)
 			{
-				if (KindofTextDX == LikeDream)
-				{
-					ReplacePVM("Amy", "Amy_ldr");
-				}
+				ReplacePVM("Amy", "Amy_ld");
+				ReplacePVM("DXR_AMY_EGGROBO", "DXR_AMY_EGGROBO_ld");
+			}		
 
-				if (KindofTextDX == DreamcastT)
-				{
-					ReplacePVM("Amy", "Amy_dxdr");
-				}
+			if (KindofTextDX == DreamcastT)
+			{	
+				ReplacePVM("Amy", "Amy_dxd");
+				ReplacePVM("DXR_AMY_EGGROBO", "DXR_AMY_EGGROBO_dxd");
+			}	
 
-				if (KindofTextDX == OriginalDX)
-				{
-					ReplacePVM("Amy", "Amy_r");
-				}
-			}
-			else
-			{
-				if (KindofTextDX == LikeDream)
-				{
-					ReplacePVM("Amy", "Amy_ld");
-				}
-
-				if (KindofTextDX == DreamcastT)
-				{
-					ReplacePVM("Amy", "Amy_dxd");
-				}
-
-				if (KindofTextDX == OriginalDX)
-				{
-					ReplacePVM("Amy", "Amy_dx");
-				}
-			}
+			if (KindofTextDX == OriginalDX)
+			{	
+				ReplacePVM("Amy", "Amy_dx");
+			}	
 
 			if (DCcharacters)
 			{
@@ -527,23 +504,29 @@ extern "C"
 			}
 		}
 
-		if (DCconversion)
+		if (LWMural == Preview)
 		{
-			if (LWMural == Vanilla)
-			{
-				ReplacePVM("RUIN03", "RUIN03_DC");
-			}
-
-			if (LWMural == Preview)
-			{
-				ReplacePVM("RUIN03", "RUIN03_DCP");
-			}
+			ReplaceTex("RUIN03", "lost2_wall1", "miscellaneous", "PVMural", 79029, 256, 256);
 		}
+
+		if (CISpace == Hesse)
+		{
+			ReplaceTex("ADVSS01", "chaoinspace", "miscellaneous", "ChaoInSpace", 209, 128, 128);
+			ReplaceTex("EGM2_TIKEI", "bst_pb", "miscellaneous", "ChaoInSpace", 1087220, 128, 128);
+		}
+
 		ReplacePVM("DXR_AMY_EFF", "AMY_EFF_DC");
 		ReplacePVM("DXR_CREAM", "cream_dx");
 		ReplacePVM("DXR_KNU_EFF", "KNU_EFF_HD");
 		ReplacePVM("DXR_SON_EFF", "SON_EFF_DC");
 		ReplacePVM("DXR_TIKAL", "tikal_dx");
+		ReplacePVM("DXR_EGGROB", "EGGROB_DC");
+		ReplacePVM("DXR_ER_9000_EGGMANROBO", "ER_9000_EGGMANROBO_DC");
+		ReplacePVM("DXR_EV_EGGMOBLE0", "EV_EGGMOBLE0_DC");
+		ReplacePVM("supermiles_dx", "supermiles_dxhd");
+		ReplacePVM("DXR_SUPERMILES", "supermiles_dxhd");
+		ReplacePVM("HYPERKNUX_DX", "hyperknux_dxhd");
+		ReplacePVM("DXR_HYPERKNUX", "hyperknux_dxhd");
 	}
 
 	__declspec(dllexport) ModInfo SADXModInfo = { ModLoaderVer };
