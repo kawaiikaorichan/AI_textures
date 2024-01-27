@@ -105,45 +105,6 @@ extern "C"
 		{
 			if (DCcharacters)
 			{
-				return;
-			}
-			else
-			{
-				___SONIC_OBJECTS[63]->basicdxmodel->mats[1].attrflags |= NJD_FLAG_USE_ENV | NJD_FLAG_IGNORE_LIGHT;
-			}
-
-			if (KindofTextDX == LikeDream)
-			{
-				ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_ld");
-				ReplacePVM("ev_tr2before_with_sonic", "ev_tr2before_with_sonic_ld");
-				ReplacePVM("ev_tr2change_with_sonic", "ev_tr2change_with_sonic_ld");
-				ReplacePVM("shooting1", "shooting1_ld");
-				ReplacePVM("shooting2", "shooting2_ld");
-				ReplacePVM("sonic", "sonic_ld");
-			}
-
-			if (KindofTextDX == DreamcastT)
-			{
-				ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_dxd");
-				ReplacePVM("ev_tr2before_with_sonic", "ev_tr2before_with_sonic_dxd");
-				ReplacePVM("ev_tr2change_with_sonic", "ev_tr2change_with_sonic_dxd");
-				ReplacePVM("shooting1", "shooting1_dxd");
-				ReplacePVM("shooting2", "shooting2_dxd");
-				ReplacePVM("SONIC", "SONIC_dxd");
-			}
-
-			if (KindofTextDX == OriginalDX)
-			{
-				ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_dx");
-				ReplacePVM("ev_tr2before_with_sonic", "ev_tr2before_with_sonic_dx");
-				ReplacePVM("ev_tr2change_with_sonic", "ev_tr2change_with_sonic_dx");
-				ReplacePVM("shooting1", "shooting1_dx");
-				ReplacePVM("shooting2", "shooting2_dx");
-				ReplacePVM("sonic", "sonic_dx");
-			}
-
-			if (DCcharacters)
-			{
 				if (KindofTextDC == LikeDX)
 				{
 					ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_ldx");
@@ -164,6 +125,40 @@ extern "C"
 					ReplacePVM("SONIC", "SONIC_DC");
 				}
 			}
+			else
+			{
+				___SONIC_OBJECTS[63]->basicdxmodel->mats[1].attrflags |= NJD_FLAG_USE_ENV | NJD_FLAG_IGNORE_LIGHT;
+
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_ld");
+					ReplacePVM("ev_tr2before_with_sonic", "ev_tr2before_with_sonic_ld");
+					ReplacePVM("ev_tr2change_with_sonic", "ev_tr2change_with_sonic_ld");
+					ReplacePVM("shooting1", "shooting1_ld");
+					ReplacePVM("shooting2", "shooting2_ld");
+					ReplacePVM("sonic", "sonic_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_dxd");
+					ReplacePVM("ev_tr2before_with_sonic", "ev_tr2before_with_sonic_dxd");
+					ReplacePVM("ev_tr2change_with_sonic", "ev_tr2change_with_sonic_dxd");
+					ReplacePVM("shooting1", "shooting1_dxd");
+					ReplacePVM("shooting2", "shooting2_dxd");
+					ReplacePVM("SONIC", "SONIC_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("ev_tr1_with_sonic", "ev_tr1_with_sonic_dx");
+					ReplacePVM("ev_tr2before_with_sonic", "ev_tr2before_with_sonic_dx");
+					ReplacePVM("ev_tr2change_with_sonic", "ev_tr2change_with_sonic_dx");
+					ReplacePVM("shooting1", "shooting1_dx");
+					ReplacePVM("shooting2", "shooting2_dx");
+					ReplacePVM("sonic", "sonic_dx");
+				}
+			}
 		}
 
 		if (EnableSSonic)
@@ -180,83 +175,11 @@ extern "C"
 			WriteData((NJS_TEXLIST**)0x55F669, SSHomingTex3);
 			SUPERSONIC_TEXLIST = SS_PVM;
 
-			if (DXSS == Upgraded)
-			{
-				ReplacePVM("supersonic", "supersonic_n");
-				ReplacePVM("hypersonic", "hypersonic_n");
-				ReplacePVM("hypersonic_g", "hypersonic_n");
-				ReplacePVM("DXR_HYPER", "hypersonic_n");
-			}
-
-			if (DXSS == UpgradedDX)
-			{
-				ReplacePVM("supersonic", "supersonic_ndx");
-				ReplacePVM("hypersonic", "hypersonic_ndx");
-				ReplacePVM("hypersonic_g", "hypersonic_ndx");
-				ReplacePVM("DXR_HYPER", "hypersonic_ndx");
-			}
-
-			if (DXSS == DreamcastTSS)
-			{
-				ReplacePVM("supersonic", "supersonic_dxd");
-				ReplacePVM("hypersonic", "hypersonic_dxd");
-				ReplacePVM("hypersonic_g", "hypersonic_dxd");
-				ReplacePVM("DXR_HYPER", "hypersonic_dxd");
-			}
-
-			if (DXSS == LikeDreamSS)
-			{
-				ReplacePVM("supersonic", "supersonic_ld");
-				ReplacePVM("hypersonic", "hypersonic_ld");
-				ReplacePVM("hypersonic_g", "hypersonic_ld");
-				ReplacePVM("DXR_HYPER", "hypersonic_ld");
-			}
-
-			if (DXSS == OriginalDXSS)
-			{
-				ReplacePVM("supersonic", "supersonic_dx");
-				ReplacePVM("hypersonic", "hypersonic_dx");
-				ReplacePVM("hypersonic_g", "hypersonic_dx");
-				ReplacePVM("DXR_HYPER", "hypersonic_dx");
-			}
-
-			if (DXSS == Combined)
-			{
-				ReplacePVM("supersonic", "supersonic_comb");
-				ReplacePVM("hypersonic", "hypersonic_dx");
-				ReplacePVM("hypersonic_g", "hypersonic_dx");
-				ReplacePVM("DXR_HYPER", "hypersonic_dx");
-			}
-
-			if (DXSS == Solo)
-			{
-				ReplacePVM("supersonic", "supersonic_solo");
-				ReplacePVM("hypersonic", "hypersonic_solo");
-				ReplacePVM("hypersonic_g", "hypersonic_solo");
-				ReplacePVM("DXR_HYPER", "hypersonic_solo");
-			}
-
-			if (DXSS == SoloDX)
-			{
-				ReplacePVM("supersonic", "supersonic_solodx");
-				ReplacePVM("hypersonic", "hypersonic_solodx");
-				ReplacePVM("hypersonic_g", "hypersonic_solodx");
-				ReplacePVM("DXR_HYPER", "hypersonic_solodx");
-			}
-
-			if (DXSS == SoloComb)
-			{
-				ReplacePVM("supersonic", "supersonic_solocomb");
-				ReplacePVM("hypersonic", "hypersonic_solodx");
-				ReplacePVM("hypersonic_g", "hypersonic_solodx");
-				ReplacePVM("DXR_HYPER", "hypersonic_solodx");
-			}
-
 			if (DCcharacters)
 			{
 				if (DCSS == UpgradedDC)
 				{
-					ReplacePVM("supersonic", "supersonic_dcn");
+					ReplacePVM("SUPERSONIC", "supersonic_dcn");
 					ReplacePVM("supersonic_dc_a", "supersonic_dcn");
 					ReplacePVM("hypersonic_dc", "hypersonic_dcn");
 					ReplacePVM("hypersonic_dc_a", "hypersonic_dcn");
@@ -267,7 +190,7 @@ extern "C"
 
 				if (DCSS == UpgradedLDX)
 				{
-					ReplacePVM("supersonic", "supersonic_dcndx");
+					ReplacePVM("SUPERSONIC", "supersonic_dcndx");
 					ReplacePVM("supersonic_dc_a", "supersonic_dcndx");
 					ReplacePVM("hypersonic_dc", "hypersonic_dcndx");
 					ReplacePVM("hypersonic_dc_a", "hypersonic_dcndx");
@@ -278,7 +201,7 @@ extern "C"
 
 				if (DCSS == LikeDXSS)
 				{
-					ReplacePVM("supersonic", "supersonic_ldx");
+					ReplacePVM("SUPERSONIC", "supersonic_ldx");
 					ReplacePVM("supersonic_dc_a", "supersonic_ldx");
 					ReplacePVM("hypersonic_dc", "hypersonic_ldx");
 					ReplacePVM("hypersonic_dc_a", "hypersonic_ldx");
@@ -289,7 +212,7 @@ extern "C"
 
 				if (DCSS == SoloDC)
 				{
-					ReplacePVM("supersonic", "supersonic_solodc");
+					ReplacePVM("SUPERSONIC", "supersonic_solodc");
 					ReplacePVM("supersonic_dc_a", "supersonic_solodc");
 					ReplacePVM("hypersonic_dc", "hypersonic_solodc");
 					ReplacePVM("hypersonic_dc_a", "hypersonic_solodc");
@@ -300,7 +223,7 @@ extern "C"
 
 				if (DCSS == SoloLDX)
 				{
-					ReplacePVM("supersonic", "supersonic_solodcdx");
+					ReplacePVM("SUPERSONIC", "supersonic_solodcdx");
 					ReplacePVM("supersonic_dc_a", "supersonic_solodcdx");
 					ReplacePVM("hypersonic_dc", "hypersonic_solodcdx");
 					ReplacePVM("hypersonic_dc_a", "hypersonic_solodcdx");
@@ -311,7 +234,7 @@ extern "C"
 
 				if (DCSS == OriginalDCSS)
 				{
-					ReplacePVM("supersonic", "supersonic_dc");
+					ReplacePVM("SUPERSONIC", "supersonic_dc");
 					//Solo, what the heck did you do for the next two not to work?
 					ReplacePVM("supersonic_dc_a", "supersonic_dc");
 					ReplacePVM("hypersonic_dc_a", "hypersonic_dc");
@@ -320,33 +243,84 @@ extern "C"
 					ReplacePVM("HYPERSONIC_V_P_DC", "hypersonic_dc");
 				}
 			}
+			else
+			{
+				if (DXSS == Upgraded)
+				{
+					ReplacePVM("supersonic", "supersonic_n");
+					ReplacePVM("hypersonic", "hypersonic_n");
+					ReplacePVM("hypersonic_g", "hypersonic_n");
+					ReplacePVM("DXR_HYPER", "hypersonic_n");
+				}
+
+				if (DXSS == UpgradedDX)
+				{
+					ReplacePVM("supersonic", "supersonic_ndx");
+					ReplacePVM("hypersonic", "hypersonic_ndx");
+					ReplacePVM("hypersonic_g", "hypersonic_ndx");
+					ReplacePVM("DXR_HYPER", "hypersonic_ndx");
+				}
+
+				if (DXSS == DreamcastTSS)
+				{
+					ReplacePVM("supersonic", "supersonic_dxd");
+					ReplacePVM("hypersonic", "hypersonic_dxd");
+					ReplacePVM("hypersonic_g", "hypersonic_dxd");
+					ReplacePVM("DXR_HYPER", "hypersonic_dxd");
+				}
+
+				if (DXSS == LikeDreamSS)
+				{
+					ReplacePVM("supersonic", "supersonic_ld");
+					ReplacePVM("hypersonic", "hypersonic_ld");
+					ReplacePVM("hypersonic_g", "hypersonic_ld");
+					ReplacePVM("DXR_HYPER", "hypersonic_ld");
+				}
+
+				if (DXSS == OriginalDXSS)
+				{
+					ReplacePVM("supersonic", "supersonic_dx");
+					ReplacePVM("hypersonic", "hypersonic_dx");
+					ReplacePVM("hypersonic_g", "hypersonic_dx");
+					ReplacePVM("DXR_HYPER", "hypersonic_dx");
+				}
+
+				if (DXSS == Combined)
+				{
+					ReplacePVM("supersonic", "supersonic_comb");
+					ReplacePVM("hypersonic", "hypersonic_dx");
+					ReplacePVM("hypersonic_g", "hypersonic_dx");
+					ReplacePVM("DXR_HYPER", "hypersonic_dx");
+				}
+
+				if (DXSS == Solo)
+				{
+					ReplacePVM("supersonic", "supersonic_solo");
+					ReplacePVM("hypersonic", "hypersonic_solo");
+					ReplacePVM("hypersonic_g", "hypersonic_solo");
+					ReplacePVM("DXR_HYPER", "hypersonic_solo");
+				}
+
+				if (DXSS == SoloDX)
+				{
+					ReplacePVM("supersonic", "supersonic_solodx");
+					ReplacePVM("hypersonic", "hypersonic_solodx");
+					ReplacePVM("hypersonic_g", "hypersonic_solodx");
+					ReplacePVM("DXR_HYPER", "hypersonic_solodx");
+				}
+
+				if (DXSS == SoloComb)
+				{
+					ReplacePVM("supersonic", "supersonic_solocomb");
+					ReplacePVM("hypersonic", "hypersonic_solodx");
+					ReplacePVM("hypersonic_g", "hypersonic_solodx");
+					ReplacePVM("DXR_HYPER", "hypersonic_solodx");
+				}
+			}
 		}
 
 		if (EnableTails)
 		{
-			if (KindofTextDX == LikeDream)
-			{
-				ReplacePVM("m_head_1", "m_head_1_ld");
-				ReplacePVM("m_tr_p", "m_tr_p_ld");
-				ReplacePVM("Miles", "Miles_ld");
-				ReplacePVM("DXR_EV_S_T2C_BODY", "DXR_EV_S_T2C_BODY_ld");
-			}
-
-			if (KindofTextDX == DreamcastT)
-			{
-				ReplacePVM("m_head_1", "m_head_1_dxd");
-				ReplacePVM("m_tr_p", "m_tr_p_dxd");	
-				ReplacePVM("Miles", "Miles_dxd");
-				ReplacePVM("DXR_EV_S_T2C_BODY", "DXR_EV_S_T2C_BODY_dxd");
-			}				
-
-			if (KindofTextDX == OriginalDX)
-			{
-				ReplacePVM("m_head_1", "m_head_1_dx");	
-				ReplacePVM("m_tr_p", "m_tr_p_dx");	
-				ReplacePVM("Miles", "Miles_dx");	
-			}			
-
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -363,25 +337,35 @@ extern "C"
 					ReplacePVM("Miles", "Miles_DC");
 				}
 			}
+			else
+			{
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("m_head_1", "m_head_1_ld");
+					ReplacePVM("m_tr_p", "m_tr_p_ld");
+					ReplacePVM("Miles", "Miles_ld");
+					ReplacePVM("DXR_EV_S_T2C_BODY", "DXR_EV_S_T2C_BODY_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("m_head_1", "m_head_1_dxd");
+					ReplacePVM("m_tr_p", "m_tr_p_dxd");
+					ReplacePVM("Miles", "Miles_dxd");
+					ReplacePVM("DXR_EV_S_T2C_BODY", "DXR_EV_S_T2C_BODY_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("m_head_1", "m_head_1_dx");
+					ReplacePVM("m_tr_p", "m_tr_p_dx");
+					ReplacePVM("Miles", "Miles_dx");
+				}
+			}
 		}
 
 		if (EnableKnuckles)
 		{
-			if (KindofTextDX == LikeDream)
-			{
-				ReplacePVM("Knuckles", "Knuckles_ld");
-			}
-
-			if (KindofTextDX == DreamcastT)
-			{
-				ReplacePVM("Knuckles", "Knuckles_dxd");
-			}
-
-			if (KindofTextDX == OriginalDX)
-			{
-				ReplacePVM("Knuckles", "Knuckles_dx");
-			}
-
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -394,27 +378,27 @@ extern "C"
 					ReplacePVM("Knuckles", "Knuckles_DC");
 				}
 			}
+			else
+			{
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("Knuckles", "Knuckles_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("Knuckles", "Knuckles_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("Knuckles", "Knuckles_dx");
+				}
+			}
 		}
 
 		if (EnableAmy)
 		{
-			if (KindofTextDX == LikeDream)
-			{
-				ReplacePVM("Amy", "Amy_ld");
-				ReplacePVM("DXR_AMY_EGGROBO", "DXR_AMY_EGGROBO_ld");
-			}		
-
-			if (KindofTextDX == DreamcastT)
-			{	
-				ReplacePVM("Amy", "Amy_dxd");
-				ReplacePVM("DXR_AMY_EGGROBO", "DXR_AMY_EGGROBO_dxd");
-			}	
-
-			if (KindofTextDX == OriginalDX)
-			{	
-				ReplacePVM("Amy", "Amy_dx");
-			}	
-
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -427,6 +411,25 @@ extern "C"
 					ReplacePVM("Amy", "Amy_DC");
 				}
 			}
+			else
+			{
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("Amy", "Amy_ld");
+					ReplacePVM("DXR_AMY_EGGROBO", "DXR_AMY_EGGROBO_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("Amy", "Amy_dxd");
+					ReplacePVM("DXR_AMY_EGGROBO", "DXR_AMY_EGGROBO_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("Amy", "Amy_dx");
+				}
+			}
 		}
 
 		if (EnableGamma)
@@ -434,31 +437,18 @@ extern "C"
 			if (KindofTextGamma == OriginalG)
 			{
 				ReplacePVM("E102", "E102_or");
+				ReplacePVM("E102_dc", "E102_or");
 			}
 
 			if (KindofTextGamma == Reworked)
 			{
 				ReplacePVM("E102", "E102_r");
+				ReplacePVM("E102_dc", "E102_r");
 			}
 		}
 
 		if (EnableBig)
 		{
-			if (KindofTextDX == LikeDream)
-			{
-				ReplacePVM("Big", "Big_ld");
-			}
-
-			if (KindofTextDX == DreamcastT)
-			{
-				ReplacePVM("Big", "Big_dxd");
-			}
-
-			if (KindofTextDX == OriginalDX)
-			{
-				ReplacePVM("Big", "Big_dx");
-			}
-
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -471,25 +461,27 @@ extern "C"
 					ReplacePVM("Big", "Big_DC");
 				}
 			}
+			else
+			{
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("Big", "Big_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("Big", "Big_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("Big", "Big_dx");
+				}
+			}
 		}
 
 		if (EnableMetal)
 		{
-			if (KindofTextDX == LikeDream)
-			{
-				ReplacePVM("Metalsonic", "Metalsonic_ld");
-			}
-
-			if (KindofTextDX == DreamcastT)
-			{
-				ReplacePVM("Metalsonic", "Metalsonic_dxd");
-			}
-
-			if (KindofTextDX == OriginalDX)
-			{
-				ReplacePVM("Metalsonic", "Metalsonic_dx");
-			}
-
 			if (DCcharacters)
 			{
 				if (KindofTextDC == LikeDX)
@@ -500,6 +492,23 @@ extern "C"
 				if (KindofTextDC == OriginalDC)
 				{
 					ReplacePVM("Metalsonic", "Metalsonic_DC");
+				}
+			}
+			else
+			{
+				if (KindofTextDX == LikeDream)
+				{
+					ReplacePVM("Metalsonic", "Metalsonic_ld");
+				}
+
+				if (KindofTextDX == DreamcastT)
+				{
+					ReplacePVM("Metalsonic", "Metalsonic_dxd");
+				}
+
+				if (KindofTextDX == OriginalDX)
+				{
+					ReplacePVM("Metalsonic", "Metalsonic_dx");
 				}
 			}
 		}
